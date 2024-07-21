@@ -8,7 +8,7 @@ function HomePage() {
 
   useEffect(() => {
     if (isAuthenticated) navigate('/admin')
-  }, [isAuthenticated])
+  }, [])
 
   return (
     <main className="w-full h-full flex flex-col justify-center items-center">

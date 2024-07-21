@@ -13,6 +13,10 @@ function LoginPage() {
     if (isAuthenticated) navigate('/admin')
   }, [isAuthenticated])
 
+  useEffect(() => {
+    if (isAuthenticated) navigate('/admin')
+  }, [])
+
   const onSubmit = handleSubmit((data) => {
     logIn(data)
   })
