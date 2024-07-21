@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "task4_ilearning_api.railway.internal",
+  baseURL: import.meta.env.API_URL,
   withCredentials: true,
 });
 
