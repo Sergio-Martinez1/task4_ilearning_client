@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "task4ilearningapi-production.up.railway.app/api",
+  baseURL: "https://task4ilearningapi-production.up.railway.app/api",
   withCredentials: true,
 });
 
