@@ -1,4 +1,15 @@
+import { useEffect } from "react"
+import { useAuth } from "../context/AuthContext.jsx"
+import { useNavigate } from "react-router-dom"
+
 function HomePage() {
+  const { isAuthenticated } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) navigate('/admin')
+  }, [isAuthenticated])
+
   return (
     <main className="w-full h-full flex flex-col justify-center items-center">
       <span className="font-bold text-5xl mb-10">Welcome to the Admin Panel</span>
