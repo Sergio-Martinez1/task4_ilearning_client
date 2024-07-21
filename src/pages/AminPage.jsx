@@ -20,16 +20,19 @@ const AdminPage = () => {
   }, []);
 
   function formatDate(date) {
-    let utc = new Date(date);
-    let offset = utc.getTimezoneOffset();
-    let local = new Date(utc.getTime() + offset * 60000);
-    const timeString = local.toLocaleTimeString('en-US', { hour12: false });
+    if (date) {
+      let utc = new Date(date);
+      let offset = utc.getTimezoneOffset();
+      let local = new Date(utc.getTime() + offset * 60000);
+      const timeString = local.toLocaleTimeString('en-US', { hour12: false });
 
-    const day = local.getDate();
-    const monthName = local.toLocaleString('en-US', { month: 'short' });
-    const year = local.getFullYear();
-    const formattedDate = `${timeString}, ${day} ${monthName}, ${year}`;
-    return formattedDate;
+      const day = local.getDate();
+      const monthName = local.toLocaleString('en-US', { month: 'short' });
+      const year = local.getFullYear();
+      const formattedDate = `${timeString}, ${day} ${monthName}, ${year}`;
+      return formattedDate;
+    }
+    return "No login yet"
   }
 
   async function block() {
