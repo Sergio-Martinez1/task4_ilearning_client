@@ -1,25 +1,17 @@
 import { useForm } from 'react-hook-form'
-import { signUpRequest } from '../api/auth.js'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useAuth } from "../context/AuthContext.jsx"
 
 function SignupPage() {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
   const navigate = useNavigate()
-  const [signUpError, setSignUpError] = useState(null)
+  const { signUp, errors: signUpError } = useAuth()
 
   const onSubmit = handleSubmit(async (values) => {
-    try {
-      const res = await signUpRequest(values)
-      if (res.status == 200) {
-        navigate('/login')
-      }
-      else {
-        setSignUpError(res.data.message)
-      }
-    } catch (error) {
-      setSignUpError(error.response.data.message)
+    const ok = await signUp(values)
+    if (ok) {
+      navigate('/login')
     }
   })
 
