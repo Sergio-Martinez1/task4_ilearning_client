@@ -1,6 +1,5 @@
-import { createContext, useState, useContext, useEffect } from "react";
+import { createContext, useState, useContext } from "react";
 import { logInRequest, logOutRequest, verifyStatus, verifyTokenRequest } from '../api/auth.js'
-import Cookies from "js-cookie";
 
 export const AuthContext = createContext()
 
@@ -23,10 +22,7 @@ export const AuthProvider = ({ children }) => {
     try {
       const res = await logInRequest(user)
       if (res.status == 200) {
-        const pass = await checkLogin()
-        if (pass == false) return
-        setUser(res.data)
-        setIsAuthenticated(true)
+        await checkLogin()
       }
       else {
         setErrors(res.data.message)
@@ -42,7 +38,6 @@ export const AuthProvider = ({ children }) => {
       if (res.status == 200) {
         setUser(null)
         setIsAuthenticated(false)
-        await checkLogin()
       }
       else {
         setErrors(res.data.message)
@@ -53,44 +48,29 @@ export const AuthProvider = ({ children }) => {
   }
 
   const checkLogin = async () => {
-    const cookies = Cookies.get()
-    if (cookies.token) {
-      try {
-        const res = await verifyTokenRequest(cookies.token)
-        if (res.status == 200) {
-          const res2 = await verifyStatus(res.data.id)
-          if (res2.status == 401) {
-            setIsAuthenticated(false)
-            setUser(null)
-            setLoading(false)
-            setErrors("No autorizado")
-            return false
-          }
+    try {
+      const res = await verifyTokenRequest()
+      if (res.status == 200) {
+        const res2 = await verifyStatus(res.data.id)
+        if (res2.status == 200) {
           setLoading(false)
           setIsAuthenticated(true)
           setUser(res.data)
           return true
         }
-        setIsAuthenticated(false)
-        setUser(null)
-        setLoading(false)
-        return false
-      } catch (error) {
-        setIsAuthenticated(false)
-        setUser(null)
-        setLoading(false)
-        setErrors(error.response.data.message)
       }
+      setIsAuthenticated(false)
+      setUser(null)
+      setLoading(false)
+      return false
+    } catch (error) {
+      setIsAuthenticated(false)
+      setUser(null)
+      setLoading(false)
+      setErrors(error.response.data.message)
+      return false
     }
-    setIsAuthenticated(false)
-    setUser(null)
-    setLoading(false)
-    return false
   }
-
-  useEffect(() => {
-    checkLogin()
-  }, [])
 
   return (
     < AuthContext.Provider value={{
