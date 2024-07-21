@@ -1,16 +1,13 @@
 import { FaLock } from "react-icons/fa";
 import { FaLockOpen } from "react-icons/fa";
 import { FaTrashAlt } from "react-icons/fa";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { blockUser, deleteUser, getUsers, unblockUser } from "../api/admin";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext.jsx"
 
 const AminPage = () => {
   const [usersData, setUsersData] = useState([])
   const [usersIds, setUsersIds] = useState([])
-  const navigate = useNavigate()
   const { checkLogin, errors: loginError } = useAuth()
 
   useEffect(() => {
