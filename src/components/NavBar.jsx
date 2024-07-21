@@ -20,7 +20,7 @@ function NavBar() {
 
   return (
     <nav className="flex w-full justify-between bg-zinc-900 h-16 px-8 py-4 items-center">
-      <h1 className="font-bold text-2xl">Admin Panel</h1>
+      <a className="font-bold text-2xl" href="/">Admin Panel</a>
       {navContent}
     </nav>
   )
