@@ -1,7 +1,8 @@
 import axios from "axios";
+const baseURL = import.meta.env.VITE_API_URL;
 
 const instance = axios.create({
-  baseURL: "https://task4ilearningapi-production.up.railway.app/api",
+  baseURL: baseURL,
   withCredentials: true,
 });
 
