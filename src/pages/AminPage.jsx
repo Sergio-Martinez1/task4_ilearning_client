@@ -86,8 +86,7 @@ const AdminPage = () => {
     usersIds.forEach(async (userId) => {
       const res = await deleteUser(userId);
       if (res.status === 200) {
-        const new_data = usersData.filter((userData) => userData.id !== userId);
-        setUsersData(new_data);
+        setUsersData(prevUsers => prevUsers.filter(user => user.id !== userId))
         setUsersIds(prevIds => prevIds.filter(id => id !== userId));
         if (checkboxRef.current && checkboxRef.current.value === userId.toString()) {
           checkboxRef.current.checked = false;
