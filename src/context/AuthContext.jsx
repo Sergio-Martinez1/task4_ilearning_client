@@ -72,8 +72,18 @@ export const AuthProvider = ({ children }) => {
   }
 
   const checkLogin = async () => {
-    verifyTokenRequest().then(async (res) => {
-      try {
+    let res = null
+    try {
+      res = await verifyTokenRequest()
+    } catch (error) {
+      setIsAuthenticated(false)
+      setUser(null)
+      setLoading(false)
+      return false
+    }
+
+    try {
+      if (res) {
         const res2 = await verifyStatus(res.data.id)
         if (res2.status == 200) {
           setLoading(false)
@@ -81,19 +91,15 @@ export const AuthProvider = ({ children }) => {
           setUser(res.data)
           return true
         }
-      } catch (error) {
-        setIsAuthenticated(false)
-        setUser(null)
-        setLoading(false)
-        setErrors(error.response.data.message)
-        return false
       }
-    }).catch(() => {
+    } catch (error) {
       setIsAuthenticated(false)
       setUser(null)
       setLoading(false)
+      setErrors(error.response.data.message)
       return false
-    })
+    }
+    return false
   }
 
   return (
