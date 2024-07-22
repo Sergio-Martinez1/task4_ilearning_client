@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     if (errors) {
       const timer = setTimeout(() => {
         setErrors(null)
-      }, 5000)
+      }, 3000)
       return () => { clearTimeout(timer) }
     }
   }, [errors])
@@ -91,7 +91,6 @@ export const AuthProvider = ({ children }) => {
       setIsAuthenticated(false)
       setUser(null)
       setLoading(false)
-      setErrors(error.response.data.message)
       return false
     }
   }
