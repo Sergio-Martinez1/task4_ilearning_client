@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 function LoginPage() {
 
   const { register, handleSubmit, formState: { errors } } = useForm()
-  const { logIn, isAuthenticated, errors: loginError } = useAuth()
+  const { logIn, isAuthenticated, errors: loginError, checkLogin } = useAuth()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -14,7 +14,7 @@ function LoginPage() {
   }, [isAuthenticated])
 
   useEffect(() => {
-    if (isAuthenticated) navigate('/admin')
+    checkLogin()
   }, [])
 
   const onSubmit = handleSubmit((data) => {
