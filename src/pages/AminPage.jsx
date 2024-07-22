@@ -35,6 +35,19 @@ const AdminPage = () => {
     return "No login yet"
   }
 
+  function checkAll(event) {
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      setUsersIds([])
+      usersData.forEach((user) => {
+        setUsersIds(prevIds => [...prevIds, user.id]);
+      })
+    } else {
+      setUsersIds([])
+    }
+    checkboxRef.checked = isChecked;
+  }
+
   async function block() {
     const pass = await checkLogin();
     if (!pass) return;
@@ -120,6 +133,7 @@ const AdminPage = () => {
         </section>
         <section className="grid grid-cols-[80px_1fr_1fr_1fr_180px] bg-gray-800 border-black border-[1px] border-b-[0px]">
           <div className="col-span-1 row-start-1 flex w-20 h-full justify-center items-center border-black border-[1px] border-b-[0px]">
+            <input type="checkbox" onChange={() => { checkAll(event) }} />
           </div>
           <span className="col-span-1 row-start-1 p-2 flex justify-center items-center border-black border-[1px] border-b-[0px]">Name</span>
           <span className="col-span-1 row-start-1 p-2 flex justify-center items-center border-black border-[1px] border-b-[0px]">e-Mail</span>
