@@ -23,7 +23,7 @@ export const AuthProvider = ({ children }) => {
     if (errors) {
       const timer = setTimeout(() => {
         setErrors(null)
-      }, 3000)
+      }, 2000)
       return () => { clearTimeout(timer) }
     }
   }, [errors])
@@ -72,9 +72,8 @@ export const AuthProvider = ({ children }) => {
   }
 
   const checkLogin = async () => {
-    try {
-      const res = await verifyTokenRequest()
-      if (res.status == 200) {
+    verifyTokenRequest().then(async (res) => {
+      try {
         const res2 = await verifyStatus(res.data.id)
         if (res2.status == 200) {
           setLoading(false)
@@ -82,17 +81,19 @@ export const AuthProvider = ({ children }) => {
           setUser(res.data)
           return true
         }
+      } catch (error) {
+        setIsAuthenticated(false)
+        setUser(null)
+        setLoading(false)
+        setErrors(error.response.data.message)
+        return false
       }
+    }).catch(() => {
       setIsAuthenticated(false)
       setUser(null)
       setLoading(false)
       return false
-    } catch (error) {
-      setIsAuthenticated(false)
-      setUser(null)
-      setLoading(false)
-      return false
-    }
+    })
   }
 
   return (
